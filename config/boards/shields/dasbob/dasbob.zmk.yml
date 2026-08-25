@@ -1,0 +1,12 @@
+file_format: "1"
+id: dasbob
+name: Dasbob
+type: shield
+url: https://github.com/GroooveBob/DASBOB
+requires: [pro_micro]
+features:
+  - keys
+siblings:
+  - dasbob_left
+  - dasbob_right
+  - dasbob_dongle

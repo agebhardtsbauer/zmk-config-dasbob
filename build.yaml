@@ -1,0 +1,28 @@
+---
+include:
+  # Left half (nice!nano) — peripheral
+  - board: nice_nano//zmk
+    shield: dasbob_left
+    cmake-args: -DCONFIG_ZMK_USB=n -DCONFIG_ZMK_SLEEP=y
+    artifact-name: dasbob_left
+
+  # Right half (nice!nano) — peripheral
+  - board: nice_nano//zmk
+    shield: dasbob_right
+    cmake-args: -DCONFIG_ZMK_USB=n -DCONFIG_ZMK_SLEEP=y
+    artifact-name: dasbob_right
+
+  # Bond-reset firmware for either half, if pairing ever needs a clean slate
+  - board: nice_nano//zmk
+    shield: settings_reset
+    artifact-name: dasbob_settings_reset
+
+  # Prospector (xiao_ble) — central + display
+  - board: xiao_ble//zmk
+    shield: dasbob_dongle prospector_adapter
+    artifact-name: dasbob_prospector_dongle
+
+  # Bond-reset firmware for the Prospector
+  - board: xiao_ble//zmk
+    shield: settings_reset
+    artifact-name: prospector_settings_reset

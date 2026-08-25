@@ -1,0 +1,29 @@
+# Copyright (c) 2021 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+if SHIELD_DASBOB_DONGLE
+
+config ZMK_KEYBOARD_NAME
+	default "dasbob"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+	default y
+
+config ZMK_USB
+	default y
+
+endif
+
+# SHIELD_DASBOB_LEFT / SHIELD_DASBOB_RIGHT intentionally do NOT default
+# ZMK_SPLIT_ROLE_CENTRAL to y here: with the Prospector as a third,
+# dongle-central device, both keyboard halves are peripherals.
+
+if SHIELD_DASBOB_LEFT || SHIELD_DASBOB_RIGHT || SHIELD_DASBOB_DONGLE
+
+config ZMK_SPLIT
+	default y
+
+config ZMK_BLE
+	default y
+
+endif
