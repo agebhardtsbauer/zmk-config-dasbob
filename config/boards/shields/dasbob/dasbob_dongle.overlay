@@ -41,7 +41,3 @@
 		events = <0>;
 	};
 };
-
-&board_cdc_acm_uart {
-	status = "disabled";
-};
