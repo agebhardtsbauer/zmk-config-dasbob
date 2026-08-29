@@ -4,24 +4,33 @@ ZMK config for a DASBOB split (two nice!nanos) with a [Prospector](https://githu
 
 ## Topology
 
-Unlike a normal 2-device split, Prospector requires **dongle-as-central**:
+Two supported setups, chosen by which `.uf2` you flash to the left half:
 
-- `dasbob_left` (nice!nano) — peripheral, no USB
-- `dasbob_right` (nice!nano) — peripheral, no USB
-- `dasbob_dongle` + `prospector_adapter` (Prospector's xiao_ble) — central, connects to your computer over USB or BLE, and drives the display
+- **Standalone** (no Prospector): `dasbob_left_standalone` is BLE central and pairs directly to your computer/phone; `dasbob_right` is peripheral.
+- **With Prospector**: `dasbob_left` and `dasbob_right` are both peripherals, no USB; `dasbob_dongle` + `prospector_adapter` (Prospector's xiao_ble) is central, connects to your computer over USB or BLE, and drives the display.
 
-The two halves no longer pair directly to your computer — the Prospector is now a required link in the chain, not an optional accessory.
+Only one device in the fleet can be central at a time, so switching between these means reflashing the left half.
 
 ## Building
 
-Push this repo to GitHub and GitHub Actions (`.github/workflows/build.yml`) will build all five `.uf2` files listed in `build.yaml` as an artifact zip. Or build locally with `west` if you have a ZMK dev environment set up.
+Push this repo to GitHub and GitHub Actions (`.github/workflows/build.yml`) will build all six `.uf2` files listed in `build.yaml` as an artifact zip. Or build locally with `west` if you have a ZMK dev environment set up.
 
 ## Flashing
 
-1. Flash `dasbob_left.uf2` to the left half, `dasbob_right.uf2` to the right half.
+**Without the Prospector (two halves only, pairs directly to your computer):**
+
+1. Flash `dasbob_left_standalone.uf2` to the left half, `dasbob_right.uf2` to the right half.
+2. Pair the left half to your computer/phone like any normal BLE keyboard. The right half pairs to the left automatically over the split link.
+3. If a half won't (re-)pair, flash the matching `*_settings_reset.uf2` to clear its stored bonds first, then reflash the real firmware.
+
+**With the Prospector (dongle-central + display):**
+
+1. Flash `dasbob_left.uf2` to the left half, `dasbob_right.uf2` to the right half. (Note: this is the *peripheral* left build, not `dasbob_left_standalone.uf2` — the two are not interchangeable, since only one device in the fleet can be BLE central at a time.)
 2. Flash `dasbob_prospector_dongle.uf2` to the Prospector.
 3. Put the Prospector in pairing mode and **pair the left half first, then the right half** — the peripheral battery widget lays itself out in pairing order, so pairing out of order just looks wrong on-screen (left-to-right), it won't break function.
 4. If a half won't re-pair (e.g. after re-flashing), flash the matching `*_settings_reset.uf2` to clear its stored bonds first, then reflash the real firmware.
+
+The Prospector's `dasbob_prospector_dongle.uf2` build is currently broken (tracked separately) — the standalone path above works today without it.
 
 ## Customizing
 

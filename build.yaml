@@ -1,12 +1,21 @@
 ---
 include:
-  # Left half (nice!nano) — peripheral
+  # Left half (nice!nano) — peripheral (use this build if you're also
+  # flashing the Prospector dongle as central)
   - board: nice_nano//zmk
     shield: dasbob_left
     cmake-args: -DCONFIG_ZMK_USB=n -DCONFIG_ZMK_SLEEP=y
     artifact-name: dasbob_left
 
-  # Right half (nice!nano) — peripheral
+  # Left half (nice!nano) — standalone central (use this instead, with no
+  # dongle, to pair the two halves directly to your computer over BLE)
+  - board: nice_nano//zmk
+    shield: dasbob_left
+    cmake-args: -DCONFIG_ZMK_USB=n -DCONFIG_ZMK_SLEEP=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=y
+    artifact-name: dasbob_left_standalone
+
+  # Right half (nice!nano) — peripheral (same firmware works whether the
+  # central is the Prospector dongle or the standalone left half above)
   - board: nice_nano//zmk
     shield: dasbob_right
     cmake-args: -DCONFIG_ZMK_USB=n -DCONFIG_ZMK_SLEEP=y
