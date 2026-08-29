@@ -3,9 +3,6 @@
 
 if SHIELD_DASBOB_DONGLE
 
-config ZMK_KEYBOARD_NAME
-	default "dasbob"
-
 config ZMK_SPLIT_ROLE_CENTRAL
 	default y
 
@@ -19,6 +16,12 @@ endif
 # dongle-central device, both keyboard halves are peripherals.
 
 if SHIELD_DASBOB_LEFT || SHIELD_DASBOB_RIGHT || SHIELD_DASBOB_DONGLE
+
+# Applies to all three shields — ZMK_KEYBOARD_NAME has no upstream default
+# (plain empty string), and BT_DEVICE_NAME defaults directly to it, so
+# without this every board advertises over BLE with a blank name.
+config ZMK_KEYBOARD_NAME
+	default "dasbob"
 
 config ZMK_SPLIT
 	default y
