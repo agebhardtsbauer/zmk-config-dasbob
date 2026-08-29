@@ -9,16 +9,22 @@ include:
 
   # Left half (nice!nano) — standalone central (use this instead, with no
   # dongle, to pair the two halves directly to your computer over BLE)
+  #
+  # ZMK_SLEEP is off here: ZMK's deep-sleep (System Off) needs a devicetree
+  # wake source explicitly configured to come back from a keypress, and this
+  # shield doesn't have one wired up yet, so once idle-timeout hits, the
+  # board is stuck until a full power cycle. Off until that's fixed properly.
   - board: nice_nano//zmk
     shield: dasbob_left
-    cmake-args: -DCONFIG_ZMK_USB=n -DCONFIG_ZMK_SLEEP=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=y
+    cmake-args: -DCONFIG_ZMK_USB=n -DCONFIG_ZMK_SLEEP=n -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=y
     artifact-name: dasbob_left_standalone
 
   # Right half (nice!nano) — peripheral (same firmware works whether the
-  # central is the Prospector dongle or the standalone left half above)
+  # central is the Prospector dongle or the standalone left half above).
+  # ZMK_SLEEP off for the same reason as dasbob_left_standalone above.
   - board: nice_nano//zmk
     shield: dasbob_right
-    cmake-args: -DCONFIG_ZMK_USB=n -DCONFIG_ZMK_SLEEP=y
+    cmake-args: -DCONFIG_ZMK_USB=n -DCONFIG_ZMK_SLEEP=n
     artifact-name: dasbob_right
 
   # Bond-reset firmware for either half, if pairing ever needs a clean slate
